@@ -7,14 +7,19 @@
         align-items: center;
       }
 
-      #lb {
-        margin: 10px;
+      .lb-container {
+        margin: 50px;
       }
     </style>
   </header>
   <body>
     <div class="container">
-      <label id="lb">X</label>
+      <div>
+        Quem sou eu?
+      </div>
+      <div class="lb-container">
+        <label id="lb">X</label>
+      </div>
       <div>
         <button onclick="handleClick(1)">
           Sim
@@ -106,7 +111,7 @@
           if(carnica[_currentQuestion.id] === answer)
             carnica.sum++;
             
-          alert(carnica["nome"] + "_" + carnica[_currentQuestion.id] + "_" +  carnica["sum"]);
+          alert(`${carnica["nome"]} - Ponto:${carnica[_currentQuestion.id]} - Soma:${carnica["sum"]}`);
         })
         
         const winner = getWinner();
@@ -117,7 +122,7 @@
         }
           
         if(currentSelected >= 3 && !!winner) {
-          alert(`A puta é ${winner.nome}`);
+          alert(`************** A puta é ${winner.nome} **************`);
           return;
         }
         
