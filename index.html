@@ -1,0 +1,141 @@
+<html>
+  <header>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #lb {
+        margin: 10px;
+      }
+    </style>
+  </header>
+  <body>
+    <div class="container">
+      <label id="lb">X</label>
+      <div>
+        <button onclick="handleClick(1)">
+          Sim
+        </button>
+         <button onclick="handleClick(0)">
+          Não
+        </button>
+        <button onclick="init()">
+          Resetar
+        </button>
+      </div>
+    </div>
+  </body>
+  
+  <script>
+      const questions = [
+        {
+          id: "gosta",
+          label: "Gosta de homens?"
+        },
+        {
+          id: "dev",
+          label: "É dev?"
+        },
+        {
+          id: "enrustido",
+          label: "É gay enrustido?"
+        },
+        {
+          id: "comunista",
+          label: "É comunista?"
+        },
+        {
+          id: "ouro",
+          label: "Foi atrás de cobre e encontrou ouro?"
+        }
+      ];
+      const db = [
+        {
+          nome: "Keno",
+          sum: 0,
+          gosta: 1,
+          dev: 0,
+          enrustido: 0,
+          comunista: 0,
+          ouro: 1
+        },
+        {
+          nome: "Gabriel",
+          sum: 0,
+          gosta: 1,
+          dev: 1,
+          enrustido: 1,
+          comunista: 0,
+          ouro: 0
+        },
+        {
+          nome: "Mailson",
+          sum: 0,
+          gosta: 0,
+          dev: 1,
+          enrustido: 0,
+          comunista: 1,
+          ouro: 0
+        }
+      ];
+      let currentSelected = 0;
+
+      function getCurrentQuestion() {
+        return questions[currentSelected];
+      }
+
+      function getWinner() {
+        db.sort((a,b) => {
+          return b.sum - a.sum;
+        });
+        
+        const top1 = db[0];
+        
+        if(db.filter(carnica => carnica.sum === top1.sum))
+          return top1;
+          
+        return;
+      }
+
+      function handleClick(answer) {
+        const _currentQuestion = getCurrentQuestion();
+        db.forEach((carnica) => {
+          if(carnica[_currentQuestion.id] === answer)
+            carnica.sum++;
+            
+          alert(carnica["nome"] + "_" + carnica[_currentQuestion.id] + "_" +  carnica["sum"]);
+        })
+        
+        const winner = getWinner();
+        
+        if(currentSelected >= questions.length){
+          alert('Acabou, puta');
+          return;
+        }
+          
+        if(currentSelected >= 3 && !!winner) {
+          alert(`A puta é ${winner.nome}`);
+          return;
+        }
+        
+        currentSelected++;
+        document.getElementById("lb").innerHTML = questions[currentSelected].label;
+      }
+
+
+      function init() {
+        questions.sort((a,b) => {
+          return 0.5 - Math.random();
+        })
+        currentSelected = 0;
+        db.forEach(carnica => carnica.sum = 0)
+        document.getElementById("lb").innerHTML = questions[currentSelected].label;
+      }
+
+
+      init();
+  </script>
+</html>
